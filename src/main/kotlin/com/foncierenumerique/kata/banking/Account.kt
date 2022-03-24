@@ -3,7 +3,8 @@ package com.foncierenumerique.kata.banking
 class Account(
     private val commandFactory: CommandFactory,
     private val amountDecision: AmountCommandDecision,
-    private val eventStore: EventStore
+    private val eventStore: EventStore,
+    private val state: StatementState,
 ) {
 
     fun deposit(amount: Int) {
@@ -18,7 +19,8 @@ class Account(
 
     fun printStatement(): String {
         val events = eventStore.findAll()
-        return Statement.apply(events).print()
+        val statement = state.apply(events)
+        return statement.print()
     }
 
 }

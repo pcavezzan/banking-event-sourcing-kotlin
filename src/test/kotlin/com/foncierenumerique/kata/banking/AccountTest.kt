@@ -18,21 +18,22 @@ class AccountTest {
 
         assertThat(printStatement).isEqualTo(
             """
-            Date        Amount  Balance
+            Date   Amount   Balance
             24.12.2015   +500   500
-            23.8.2016    -100   400
+            23.8.2016   -100   400
         """.trimIndent()
         )
     }
 
     private fun anAccount(): Account {
         val availableDates = Stack<LocalDate>()
-        availableDates.push(LocalDate.of(2015, Month.DECEMBER, 23))
-        availableDates.push(LocalDate.of(2016, Month.DECEMBER, 23))
+        availableDates.push(LocalDate.of(2016, Month.AUGUST, 23))
+        availableDates.push(LocalDate.of(2015, Month.DECEMBER, 24))
         return Account(
             CommandFactory(FakeTime(availableDates)),
             AmountCommandDecision(),
-            InMemoryEventStore()
+            InMemoryEventStore(),
+            StatementState(DefaultOperationFormatter())
         )
     }
 
