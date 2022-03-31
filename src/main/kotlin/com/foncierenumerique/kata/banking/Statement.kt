@@ -17,5 +17,4 @@ data class Statement(
 
 data class Balance(val value: Int) {
     fun isNegative() = value < 0
-    fun minus(otherValue: Int) = copy(value = value - otherValue)
 }

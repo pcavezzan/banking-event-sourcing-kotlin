@@ -15,7 +15,7 @@ class AmountCommandDecision {
         if (balance.isNegative()) {
             LOGGER.info("Cannot withdraw any money ({}) when balance ({}) is negative", command.amount, balance.value)
             emptyList()
-        } else if (balance.minus(command.amount).isNegative()) {
+        } else if (balance.value < command.amount) {
             LOGGER.info("Cannot withdraw more money ({}) than i have ({})", command.amount, balance.value)
             emptyList()
         } else {
