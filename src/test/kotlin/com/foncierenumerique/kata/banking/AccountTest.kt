@@ -25,6 +25,22 @@ class AccountTest {
         )
     }
 
+    @Test
+    internal fun `should not be able to withdraw more money than i have`() {
+        val account = anAccount()
+        account.deposit(500)
+        account.withdraw(600)
+
+        val printStatement = account.printStatement()
+
+        assertThat(printStatement).isEqualTo(
+            """
+            Date   Amount   Balance
+            24.12.2015   +500   500
+        """.trimIndent()
+        )
+    }
+
     private fun anAccount(): Account {
         val availableDates = Stack<LocalDate>()
         availableDates.push(LocalDate.of(2016, Month.AUGUST, 23))
