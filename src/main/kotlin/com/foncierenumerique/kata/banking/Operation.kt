@@ -5,8 +5,7 @@ import java.time.LocalDate
 data class Operation(
     val type: OperationType,
     val date: LocalDate,
-    val amount: Int,
-    val balance: Int
+    val amount: Int
 )
 
 enum class OperationType {

@@ -1,8 +1,8 @@
 package com.foncierenumerique.kata.banking
 
-class StatementState(private val statementFormatter: DefaultOperationFormatter) {
+class StatementState(statementFormatter: DefaultOperationFormatter) {
 
-    var balance = 0
+    private val statement = Statement(formatter = statementFormatter)
 
     fun apply(events: List<Event>): Statement {
         val operations = events.map {
@@ -11,28 +11,22 @@ class StatementState(private val statementFormatter: DefaultOperationFormatter) 
                 is AmountDepositedEvent -> applyAmountDepositedEvent(it)
             }
         }
-        return Statement(operations, statementFormatter)
+        return statement.apply(operations)
     }
 
     private fun applyAmountDepositedEvent(event: AmountDepositedEvent): Operation {
-        balance += event.amount
         return Operation(
             type = OperationType.DEPOSIT,
             amount = event.amount,
-            date = event.date,
-            balance = balance
+            date = event.date
         )
     }
 
     private fun applyAmountWithDrawnEvent(event: AmountWithdrawnEvent): Operation {
-        var balance1 = balance
-        balance1 -= event.amount
         return Operation(
             type = OperationType.WITHDRAW,
             amount = event.amount,
-            date = event.date,
-            balance = balance1
+            date = event.date
         )
     }
-
 }
